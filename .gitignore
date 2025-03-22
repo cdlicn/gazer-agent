@@ -12,4 +12,4 @@
 **/mvnw.cmd
 **/.mvn
 **/target/
-**/.gitignore
+.gitignore
