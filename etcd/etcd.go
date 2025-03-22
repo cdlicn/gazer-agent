@@ -3,8 +3,8 @@ package etcd
 import (
 	"context"
 	"fmt"
-	"gazer-agent/common"
-	"gazer-agent/tailfile"
+	"github.com/cdlicn/gazer-agent/common"
+	"github.com/cdlicn/gazer-agent/tailfile"
 	"github.com/sirupsen/logrus"
 	clientv3 "go.etcd.io/etcd/client/v3"
 	"time"

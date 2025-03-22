@@ -1,7 +1,7 @@
 package tailfile
 
 import (
-	"gazer-agent/common"
+	"github.com/cdlicn/gazer-agent/common"
 	"github.com/sirupsen/logrus"
 )
 

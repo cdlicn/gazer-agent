@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
-	"gazer-agent/common"
-	"gazer-agent/etcd"
-	"gazer-agent/kafka"
-	"gazer-agent/tailfile"
+	"github.com/cdlicn/gazer-agent/common"
+	"github.com/cdlicn/gazer-agent/etcd"
+	"github.com/cdlicn/gazer-agent/kafka"
+	"github.com/cdlicn/gazer-agent/tailfile"
 	"github.com/sirupsen/logrus"
 	"gopkg.in/ini.v1"
 )

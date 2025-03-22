@@ -1,4 +1,4 @@
-module gazer-agent
+module github.com/cdlicn/gazer-agent
 
 go 1.23.0
 
