@@ -1,0 +1,15 @@
+.idea
+*.iws
+*.iml
+*.ipr
+
+**/.idea
+**/*.iws
+**/*.iml
+**/*.ipr
+**/modules.xml
+**/mvnw
+**/mvnw.cmd
+**/.mvn
+**/target/
+**/.gitignore
