@@ -83,4 +83,5 @@ func Run() error {
 	// 把日志通过sarama发往kafka
 	run()
 
+	return nil
 }
