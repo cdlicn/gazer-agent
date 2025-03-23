@@ -1,4 +1,4 @@
-package enter
+package agent
 
 import (
 	"fmt"
@@ -6,7 +6,6 @@ import (
 	"github.com/cdlicn/gazer-agent/etcd"
 	"github.com/cdlicn/gazer-agent/kafka"
 	"github.com/cdlicn/gazer-agent/tailfile"
-	"github.com/sirupsen/logrus"
 	"gopkg.in/ini.v1"
 )
 
@@ -36,55 +35,50 @@ func run() {
 }
 
 // func main() {
-func Run() {
+func Run() error {
 	// 获取本机ip
 	ip, err := common.GetOutboundIp()
 	if err != nil {
-		logrus.Errorf("get ip failed, err:%v", err)
-		return
+		return fmt.Errorf("get ip failed, err:%v", err)
 	}
-	fmt.Println(ip)
+	//fmt.Println(ip)
 
 	var configObj = new(Config)
 	// 读配置文件
 	err = ini.MapTo(configObj, "conf/config.ini")
 	if err != nil {
-		logrus.Errorf("load config failed, err:%v", err)
-		return
+		return fmt.Errorf("load config failed, err:%v", err)
 	}
-	fmt.Printf("%+v\n", configObj)
+	//fmt.Printf("%+v\n", configObj)
 
 	// 初始化，连接kafka
 	err = kafka.Init([]string{configObj.KafkaConfig.Address}, configObj.KafkaConfig.ChanSize)
 	if err != nil {
-		logrus.Errorf("init kafka failed, err:%v\n", err)
-		return
+		return fmt.Errorf("init kafka failed, err:%v\n", err)
 	}
-	logrus.Info("init kafka success!")
+	//logrus.Info("init kafka success!")
 
 	// 初始化etcd连接
 	err = etcd.Init([]string{configObj.EtcdConfig.Address})
 	if err != nil {
-		logrus.Errorf("init etcd failed, err:%v\n", err)
-		return
+		return fmt.Errorf("init etcd failed, err:%v\n", err)
 	}
 	// 从etcd中拉去要收集的日志的配置项
 	allConf, err := etcd.GerConf(ip)
 	if err != nil {
-		logrus.Errorf("get conf from etcd failed, err:%v", err)
-		return
+		return fmt.Errorf("get conf from etcd failed, err:%v", err)
 	}
-	fmt.Printf("%+v\n", allConf)
-	// 使用watch去监控etcd中 add、upd、del 的变化
-	watchEtcd()
+	//fmt.Printf("%+v\n", allConf)
 
 	// 根据配置中的路径初始化tail
 	err = tailfile.Init(allConf) // 把从etcd中获取的配置项传到Init中
 	if err != nil {
-		logrus.Errorf("init tail failed, err:%v\n", err)
-		return
+		return fmt.Errorf("init tail failed, err:%v\n", err)
 	}
-	logrus.Info("init tailfile success!")
+	//logrus.Info("init tailfile success!")
+
+	// 使用watch去监控etcd中 add、upd、del 的变化
+	watchEtcd()
 
 	// 把日志通过sarama发往kafka
 	run()
